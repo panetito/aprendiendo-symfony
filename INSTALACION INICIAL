@@ -1,0 +1,24 @@
+1)INSTALAR EL FRAMEWORK:
+Para instalar el framework symfony para crear un API REST, solo backend sin vistas, con lo mínimo, usar:
+
+composer create-project symfony/skeleton mi_api_en_symfony
+
+(el servidor enviará información en json al frontend, que lo consumirá y hará peticiones al backend).
+(el frontend puede hacerse con Angular, por ejemplo).
+
+Para instalar el framework de una página web completa con vistas, se usa:
+
+composer create-project symfony/website-skeleton aprendiendo-symfony
+
+2)INSTALAR EL PAQUETE SYMFONY APACHE:
+Para que symfony funcione bien con el servidor apache y permita reescritura de URL y demás, es necesario instalar
+un paquete llamado symfony/apache. Para ello hay que cambiarse a la carpeta del proyecto e instalarla: 
+
+cd aprendiendo-symfony
+composer require symfony/apache-pack
+
+Ya se puede ir a un navegador y navegar a: localhost/aprendiendo-symfony/public
+
+
+
+
