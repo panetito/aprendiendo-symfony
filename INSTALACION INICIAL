@@ -19,6 +19,27 @@ composer require symfony/apache-pack
 
 Ya se puede ir a un navegador y navegar a: localhost/aprendiendo-symfony/public
 
+3) CREAR UN HOST VIRTUAL EN APACHE. Para ello:
+ 	3.1) Se crea un archivo en la carpeta /etc/apache2/sites-available/aprendiendo-symfony.conf
+		<VirtualHost *:80>
+			ServerAdmin panetito2@gmail.com
+			ServerName aprendiendo-symfony.com
+			ServerAlias www.aprendiendo-symfony.com
+			DocumentRoot /var/www/html/aprendiendo-symfony/public
+
+			<Directory /var/www/html/aprendiendo-symfony/public>
+				AllowOverride All
+			</Directory>
+
+			ErrorLog ${APACHE_LOG_DIR}/error.log
+			CustomLog ${APACHE_LOG_DIR}/access.log combined
+		</VirtualHost>
+
+	3.2) Se habilita con: sudo a2ensite aprendiendo-symfony.conf
+	3.3) Se edita el archivo /etc/hosts  y se añade la linea: 
+		127.0.1.1	www.aprendiendo-symfony.com
+	3.4) Se reinicia el servidor apache con: sudo service apache2 restart
+
 
 
 
