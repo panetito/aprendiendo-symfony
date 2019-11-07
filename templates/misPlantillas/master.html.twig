@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block titulo %} Inicio {% endblock %} -Master en PHP genial
+        </title>
+    </head>
+    <body>
+        
+        <div id="header">
+            {% block cabecera %}
+                <h1> Cabecera por defecto de la plantilla MASTER </h1>
+            {% endblock %}
+        </div>
+        <hr>
+        <section id="content">
+            {% block contenido %}
+                <p> Contenido por defecto </p>
+            {% endblock %}
+        </section>
+        <hr>
+        <footer>
+            Esto es un pie  por defecto de la plantilla MASTER
+        </footer>
+        
+    </body>
+    
+</html>

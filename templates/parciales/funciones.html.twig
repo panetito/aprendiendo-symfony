@@ -1,0 +1,22 @@
+{# empty Twig template #}
+<hr><h1>Funciones</h1>
+{{ nombrecico }} <br>
+{{ min([2,88,3,1,8]) }}<br>
+{{ max([2,88,3,1,8]) }}<br>
+{{ random(animales) }}<br>
+
+{% for i in range(0,100,5) %} {# range: va del 0 al 100 con saltos de 5 en 5 #}
+    {{ i }} <br>
+{% endfor %}
+
+<h1> FILTROS </h1>
+{{ animales|length }}
+{%  set email = '     asdf@email.com     ' %}
+{{ email }}
+
+{# trim quita los espacios en blanco, upper a MAYUSCULAS y lower a minusculas #}
+{{ dump(email|trim|upper|lower) }} 
+
+<h1> EXTENSIONES PERSONALIZADAS en src/Twig. Registrado en config/services.yaml </h1>
+Utilizado como filtro {{ 5|multiplicar | raw}} <br>
+Utilizado como funcion {{ multiplicar(2) | raw }} <br>

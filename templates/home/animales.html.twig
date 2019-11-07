@@ -1,4 +1,73 @@
-{# empty Twig template #}
+{% extends "misPlantillas/master.html.twig" %}
+
+{% block titulo %} Animales {% endblock %}
+
+{% block cabecera %}
+    {{ parent() }} <!-- hereda la cabecera por defecto de la plantilla misPlantillas/master -->
+    <h1> Animales </h1>
+{% endblock %}
+
+{% block contenido %}
+    {#
 <h1>{{ titulo }}</h1>
 <h2> Tu nombre es {{ nombre }}</h2>
-<h3> Tu apellido es {{ apellidos }}</h3>
+<h3> Tu apellido es {{apellidos}}</h3> 
+    #}
+    
+{# Crear variable #}
+    {%  set perro = 'Pastor Alemán' %}
+    <h4> {{ perro }} </h4>
+    
+{# Trabajar con arrays #}
+    {{ dump(animales) }}
+    {{ animales[1] }}
+    
+{# Trabajar con arrays asociativos #}
+
+    {{ dump(aves) }}
+    {{ aves.tipo ~ '-' ~ aves['raza'] }} {# El ~ es con AltGr + ñ #}
+    
+{# condicional #}
+{% if aves.tipo == 'palomo' %}
+    <h1>Es un palomooo </h1>
+{% else %}
+    <h2> No hay palomos a la vista </h2>
+{% endif %}
+
+{# bucles #}
+{% if animales|length >=0 %}
+    <ul>
+        {% for animal in animales %}
+            <li> {{ animal }} </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% for i in 0..10 %}
+    <li> {{ i }} </li>
+    {% endfor %}
+
+{% for i in 0..animales|length %}
+    <li> {{ i }} </li>
+{% endfor %}
+
+{% if aves.color starts with 'g' %}
+    <h1> empieza por G </h1>
+{% endif %}
+
+{# funciones predefinidas - mirar en la documentación de twig en internet #}
+<hr><h1>Funciones</h1>
+{{ min([2,88,3,1,8]) }}<br>
+{{ max([2,88,3,1,8]) }}<br>
+{{ random(animales) }}<br>
+
+{% for i in range(0,100,5) %} {# range: va del 0 al 100 con saltos de 5 en 5 #}
+    {{ i }} <br>
+{% endfor %}
+
+{# uso de include #}
+<hr><hr>INCLUDEESSS<hr><hr>
+{{ include ('parciales/funciones.html.twig',{'nombrecico':'CCC AAA'}) }}
+
+
+{% endblock %}

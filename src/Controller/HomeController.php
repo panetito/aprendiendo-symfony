@@ -30,9 +30,17 @@ class HomeController extends AbstractController
     //del fichero config/routes.yaml. La de animales está en config/routes.yaml
     public function animales($nombre,$apellidos){
         $titulo ='Bienvenido a la página de animales';
+        $animales = array ('perro','gato','paloma','rata');
+        $aves = array('tipo'=>'palomo',
+                      'color'=>'gris',
+                      'edad'=>'3',
+                      'raza'=>'parda'
+            );
         return $this->render('home/animales.html.twig',['titulo'=>$titulo,
             'nombre'=>$nombre,
-            'apellidos'=>$apellidos
+            'apellidos'=>$apellidos,
+            'animales'=>$animales,
+            'aves'=>$aves
                 ]);
     }
     

@@ -12,6 +12,8 @@ animales:
        apellidos: '[a-z,A-Z ]+'
        # hay un espacio en blanco al final de la Z, para permitir espacios en blanco
        
+       # Para listar las rutas desde consola con: php bin/console debug:router
+       
 redirigir:
    path: /redirigir
    controller: App\Controller\HomeController::redirigir
