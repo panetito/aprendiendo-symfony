@@ -1,0 +1,36 @@
+# desde terminal con: 
+# php bin/console doctrine:mapping:import App\\Entity yml --path=src/Entity
+# renombrado a Animal (tenía Animales) porque almacenará 1 solo animal
+# La tabla Animales existía previamente en la base de datos MYSQL (ver fichero .env).
+App\Entity\AnimalAntiguo:
+    type: entity
+    table: animales
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        tipo:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        color:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        raza:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }
