@@ -9,9 +9,103 @@ use Symfony\Component\HttpFoundation\Response; //Para poder devolver respuestas 
 use App\Entity\Animal; //Para poder trabajar en la BD con la entidad Animal
 use App\Entity\Usuario; //Para poder trabajar en la BD con la entidad Usuario
 
+//Para usar formularios con el Form Builder
+
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request; //Para poder recibir datos por POST
+
+use Symfony\Component\HttpFoundation\Session\Session; //Para poder hacer sesiones FLASH
+
+//Para validar manualmente los datos que vienen de los formularios
+use Symfony\Component\Validator\Validation; 
+use Symfony\Component\Validator\Constraints\Email;
+
+use App\Form\AnimalType;
+
 class AnimalController extends AbstractController
 {
+    //Ejemplo para validar datos que vienen por GET en la URL
+    //probar con http://www.aprendiendo-symfony.com/validar-email/hola@hola.com
+    public function validarEmail($email)
+    {
+        //Se usa la librería Validator con un montón de funciones
+        $validator = Validation::createValidator();
+        $errores = $validator->validate($email,[
+            new Email()
+        ]);
+        
+        if (count($errores) !=0) {
+            echo "El email no se ha validado correctamente";
+            foreach ($errores as $error)
+            {
+                echo "<br/>".$error->getMessage();
+                
+            }
+        }
+        else{
+            echo "El email se ha validado correctamente";
+                
+        }
+        die();
+    }
+
+
 //Se crea una ruta para esta acción del  controlador en config/routes.yaml
+    
+    public function crearAnimal(Request $request){
+        $animal = new Animal();
+        
+     /*Una manera de definir aquí mismo el formulario
+      *    //Se define el formulario con sus campos
+        $form = $this->createFormBuilder($animal)
+                ->setMethod('POST')
+                     //->setAction($this->generateUrl('animal_save'))
+                ->add('tipo',TextType::class,[
+                             'label'=>'Tipo de animal'
+                        ])
+                ->add('color',TextType::class)
+                ->add('raza',TextType::class)
+                ->add('submit',SubmitType::class,[
+                         'label'=>'Crear animal',
+                         'attr'=>['class'=>'btn btn-success']
+                        ])
+                ->getForm();
+          */ 
+        //Otra manera de definir el formulario a través de Form/AnimalType.php
+        $form = $this->createForm(AnimalType::class,$animal);
+
+        
+        //Automaticamente recoge datos del formulario y lo deja en el objeto $animal
+        //Cuando el usuario envia el formulario vuelve a esta función y entra en 
+        //el if ($form->isSubmitted()....
+        $form->handleRequest($request);
+        
+        //Entra cuando se envia el formulario y cuando los datos enviados pasan la
+        //validación con los requisitos de validación de cada campo, especificados
+        //con @Assert en cada campo en el fichero Entity/Animal.php
+        if ($form->isSubmitted()&& $form->isValid()){
+            //var_dump($animal);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($animal);
+            $em->flush();
+            
+            //Sesion flash que al leerse se elimina. Se pasa a la vista animal/crear-animal.html.twig
+            $sesion =new Session();
+           //No hace falta $sesion->start();
+            $sesion->getFlashBag()->add('message','Animal creado');
+            
+            //Vuelve a la página del formulario, pero sin los campos rellenos
+            return $this->redirectToRoute('crear_animal');
+            
+        }
+        
+        return $this->render('animal/crear-animal.html.twig',[
+            'form'=>$form->CreateView()]);
+
+    }
+
+
     public function index()
     {
          //Cargar repositorio para hacer consultas
@@ -127,6 +221,16 @@ class AnimalController extends AbstractController
         //return new Response('¡¡¡hola mundico con RESPONSE!!!'); //respuesta http al navegador
         
     }
+
+    
+    /*
+    //Se puede recoger así lo que trae el formulario creado con FormBuilder
+    public function save(Request $request)
+    {
+        
+        var_dump($request->get('form'));die();
+         
+    }*/
     
     //Si da un error de caché, ir a la carpeta PROYECTO/var/cache y la borro
     //El id se pasa por la URL con get

@@ -11,6 +11,9 @@ namespace App\Entity;
 // que ejecutar el comando: php bin/console doctrine:migrations:migrate
 
 use Doctrine\ORM\Mapping as ORM;
+ 
+//Para validar los campos según los criterios especificados con @Assert en cada campo
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Animales
@@ -33,6 +36,8 @@ class Animal
      * @var string
      *
      * @ORM\Column(name="tipo", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Regex("/[a-zA-Z]+/")
      */
     private $tipo;
 
@@ -40,6 +45,8 @@ class Animal
      * @var string
      *
      * @ORM\Column(name="color", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Regex("/[a-zA-Z]+/")
      */
     private $color;
 
@@ -47,6 +54,11 @@ class Animal
      * @var string
      *
      * @ORM\Column(name="raza", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *      pattern="/[a-zA-Z]+/",
+     *      message="La raza debe ser un texto con letras")
+     * )
      */
     private $raza;
 
